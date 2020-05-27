@@ -1,0 +1,21 @@
+{
+  "name": "life-costs-analyzer",
+  "author": "Kamil Dubiel",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  },
+  "scripts": {
+    "watch": "lerna run watch --parallel",
+    "watch:api": "lerna run watch --scope={shared,api} --parallel",
+    "watch:client": "lerna run watch --scope={shared,client} --parallel",
+    "build:api": "lerna run build --scope={shared,api}",
+    "build:client": "lerna run build --scope={shared,client}",
+    "build:shared": "yarn workspace shared run build",
+    "postinstall": "yarn run build:shared"
+  }
+}

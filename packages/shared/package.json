@@ -1,0 +1,21 @@
+{
+  "name": "shared",
+  "version": "0.1.0",
+  "author": "Kamil Dubiel",
+  "license": "MIT",
+  "private": true,
+  "main": "build/index.js",
+  "typing": "build/index.d.ts",
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "yup": "^0.29.0"
+  },
+  "devDependencies": {
+    "@types/yup": "^0.29.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.3"
+  }
+}

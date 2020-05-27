@@ -1,0 +1,48 @@
+version: '3.1'
+services:
+  database:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    env_file: .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+
+  api:
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: packages/api/Dockerfile
+    depends_on:
+      - database
+    ports:
+      - 4000:4000
+      - 4010:4010
+    volumes:
+      - ./packages/api/src:/user/app/packages/api/src
+      - ./packages/shared/src:/user/app/packages/shared/src
+    command: yarn watch:api
+    environment:
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_URL: ${MONGO_URL}
+
+  client:
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: packages/client/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./packages/client/src:/user/app/packages/client/src
+      - ./packages/shared/src:/user/app/packages/shared/src
+    command: yarn watch:client

@@ -1,0 +1,11 @@
+**/node_modules/
+**/build/
+
+**/Dockerfile
+**/.dockerignore
+
+**/.prettierrc
+**/.eslintignore
+**/.eslintrc.json
+
+**/*.log
